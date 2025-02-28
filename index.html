@@ -4,52 +4,70 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Security Tool</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
         body {
             font-family: 'Poppins', sans-serif;
             text-align: center;
-            background: linear-gradient(135deg, #667eea, #764ba2);
+            background: url(images.jpg) no-repeat center center fixed;
+            background-size: cover;
             color: white;
             padding: 50px;
         }
         .container {
-            max-width: 500px;
-            background: rgba(255, 255, 255, 0.1);
+            max-width: 450px;
+            background: rgba(0, 0, 0, 0.75);
             padding: 30px;
             border-radius: 15px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
-            backdrop-filter: blur(10px);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(5px);
             margin: auto;
+            transition: 0.3s;
+        }
+        h2 {
+            font-weight: 600;
+            margin-bottom: 15px;
         }
         input {
             padding: 12px;
-            width: 80%;
+            width: 85%;
             margin: 15px 0;
             border: none;
-            border-radius: 5px;
-            outline: none;
+            border-radius: 8px;
             font-size: 16px;
             text-align: center;
+            transition: 0.3s;
+        }
+        input:focus {
+            outline: 2px solid #ff6b6b;
         }
         button {
             padding: 12px 20px;
             margin: 10px;
             cursor: pointer;
             border: none;
-            border-radius: 5px;
+            border-radius: 8px;
             background: #ff6b6b;
             color: white;
             font-size: 16px;
+            font-weight: bold;
             transition: 0.3s;
         }
         button:hover {
             background: #ff4757;
+            transform: scale(1.05);
         }
         #strength, #generatedPassword {
             font-size: 18px;
             font-weight: bold;
             margin-top: 10px;
         }
+        
+        /* Password Strength Color Indicator */
+        .weak { color: #ff4757; }
+        .moderate { color: #ffa502; }
+        .strong { color: #2ed573; }
+        .very-strong { color: #1e90ff; }
     </style>
 </head>
 <body>
@@ -70,9 +88,13 @@
             if (/[a-z]/.test(password)) strength++;
             if (/[0-9]/.test(password)) strength++;
             if (/[^A-Za-z0-9]/.test(password)) strength++;
-            
+
             let strengthText = ["Very Weak", "Weak", "Moderate", "Strong", "Very Strong"];
-            return strengthText[strength];
+            let colors = ["weak", "weak", "moderate", "strong", "very-strong"];
+
+            let result = document.getElementById("strength");
+            result.innerText = "Password Strength: " + strengthText[strength];
+            result.className = colors[strength];
         }
 
         function generateSecurePassword() {
@@ -86,7 +108,7 @@
 
         function checkPasswordStrength() {
             const password = document.getElementById("passwordInput").value;
-            document.getElementById("strength").innerText = "Password Strength: " + evaluatePassword(password);
+            evaluatePassword(password);
         }
 
         function generateNewPassword() {
