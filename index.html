@@ -4,73 +4,130 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Password Security Tool</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
         body {
             font-family: 'Poppins', sans-serif;
             text-align: center;
-            background: url(images.jpg) no-repeat center center fixed;
+            background: url(image5.jpg) no-repeat center center fixed;
             background-size: cover;
             color: white;
-            padding: 50px;
+            padding: 50px 0;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.8);
+            padding: 20px 30px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+        .navbar h1 {
+            margin: 0;
+            font-size: 24px;
+            color: white;
+        }
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+        .nav-links li {
+            display: inline;
+        }
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            transition: 0.3s;
+            padding: 10px;
+            cursor: pointer;
+        }
+        .nav-links a:hover {
+            color: #ff6b6b;
         }
         .container {
-            max-width: 450px;
-            background: rgba(0, 0, 0, 0.75);
-            padding: 30px;
+            max-width: 700px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 50px;
             border-radius: 15px;
-            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.5);
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
             backdrop-filter: blur(5px);
-            margin: auto;
-            transition: 0.3s;
+            margin: 200px auto 0;
         }
-        h2 {
-            font-weight: 600;
-            margin-bottom: 15px;
-        }
-        input {
+        input{
             padding: 12px;
-            width: 85%;
+            width: 80%;
             margin: 15px 0;
             border: none;
-            border-radius: 8px;
+            border-radius: 5px;
+            outline: none;
             font-size: 16px;
             text-align: center;
-            transition: 0.3s;
-        }
-        input:focus {
-            outline: 2px solid #ff6b6b;
         }
         button {
             padding: 12px 20px;
             margin: 10px;
             cursor: pointer;
             border: none;
-            border-radius: 8px;
-            background: #ff6b6b;
+            border-radius: 5px;
+            background: #1fc248;
             color: white;
             font-size: 16px;
-            font-weight: bold;
             transition: 0.3s;
         }
+        h2{
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
         button:hover {
-            background: #ff4757;
-            transform: scale(1.05);
+            background: #ff6b6b;
         }
         #strength, #generatedPassword {
             font-size: 18px;
             font-weight: bold;
             margin-top: 10px;
         }
-        
-        /* Password Strength Color Indicator */
-        .weak { color: #ff4757; }
-        .moderate { color: #ffa502; }
-        .strong { color: #2ed573; }
-        .very-strong { color: #1e90ff; }
+        input:focus {
+            outline: 2px solid #ff6b6b;
+        }
+        .content-section {
+            display: none;
+            max-width: 600px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+            margin: 120px auto 20px;
+        }
+        .footer {
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            text-align: center;
+            padding: 15px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <h1>Password Security</h1>
+        <ul class="nav-links">
+            <li><a onclick="showContent('home')">Home</a></li>
+            <li><a onclick="showContent('features')">Features</a></li>
+            <li><a onclick="showContent('about')">About</a></li>
+            <li><a onclick="showContent('contact')">Contact</a></li>
+        </ul>
+    </nav>
     <div class="container">
         <h2>Password Security Tool</h2>
         <input type="text" id="passwordInput" placeholder="Enter Password">
@@ -79,7 +136,13 @@
         <button onclick="generateNewPassword()">Generate Secure Password</button>
         <p id="generatedPassword"></p>
     </div>
-
+    <div id="home" class="content-section"> <p>Welcome to our Password Security Tool!</p> </div>
+    <div id="features" class="content-section"> <p>Our tool evaluates password strength and suggests secure passwords.</p> </div>
+    <div id="about" class="content-section"> <p>This tool is designed to help users generate and evaluate secure passwords.</p> </div>
+    <div id="contact" class="content-section"> <p>Contact us at atharwag72@gmail.com</p> </div>
+    <footer class="footer">
+        <p>&copy; 2025 Password Security</p>
+    </footer>
     <script>
         function evaluatePassword(password) {
             let strength = 0;
@@ -88,13 +151,9 @@
             if (/[a-z]/.test(password)) strength++;
             if (/[0-9]/.test(password)) strength++;
             if (/[^A-Za-z0-9]/.test(password)) strength++;
-
+            
             let strengthText = ["Very Weak", "Weak", "Moderate", "Strong", "Very Strong"];
-            let colors = ["weak", "weak", "moderate", "strong", "very-strong"];
-
-            let result = document.getElementById("strength");
-            result.innerText = "Password Strength: " + strengthText[strength];
-            result.className = colors[strength];
+            return strengthText[strength];
         }
 
         function generateSecurePassword() {
@@ -108,11 +167,18 @@
 
         function checkPasswordStrength() {
             const password = document.getElementById("passwordInput").value;
-            evaluatePassword(password);
+            document.getElementById("strength").innerText = "Password Strength: " + evaluatePassword(password);
         }
 
         function generateNewPassword() {
             document.getElementById("generatedPassword").innerText = "Suggested Secure Password: " + generateSecurePassword();
+        }
+
+        function showContent(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.style.display = 'none';
+            });
+            document.getElementById(sectionId).style.display = 'block';
         }
     </script>
 </body>
