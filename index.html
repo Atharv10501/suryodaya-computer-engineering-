@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Security Tool</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea, #764ba2);
+            color: white;
+            padding: 50px;
+        }
+        .container {
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            margin: auto;
+        }
+        input {
+            padding: 12px;
+            width: 80%;
+            margin: 15px 0;
+            border: none;
+            border-radius: 5px;
+            outline: none;
+            font-size: 16px;
+            text-align: center;
+        }
+        button {
+            padding: 12px 20px;
+            margin: 10px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            background: #ff6b6b;
+            color: white;
+            font-size: 16px;
+            transition: 0.3s;
+        }
+        button:hover {
+            background: #ff4757;
+        }
+        #strength, #generatedPassword {
+            font-size: 18px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Password Security Tool</h2>
+        <input type="text" id="passwordInput" placeholder="Enter Password">
+        <button onclick="checkPasswordStrength()">Check Strength</button>
+        <p id="strength"></p>
+        <button onclick="generateNewPassword()">Generate Secure Password</button>
+        <p id="generatedPassword"></p>
+    </div>
+
+    <script>
+        function evaluatePassword(password) {
+            let strength = 0;
+            if (password.length >= 8) strength++;
+            if (/[A-Z]/.test(password)) strength++;
+            if (/[a-z]/.test(password)) strength++;
+            if (/[0-9]/.test(password)) strength++;
+            if (/[^A-Za-z0-9]/.test(password)) strength++;
+            
+            let strengthText = ["Very Weak", "Weak", "Moderate", "Strong", "Very Strong"];
+            return strengthText[strength];
+        }
+
+        function generateSecurePassword() {
+            const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()_+[]{}|;:'\",.<>?/";
+            let password = "";
+            for (let i = 0; i < 12; i++) {
+                password += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+            return password;
+        }
+
+        function checkPasswordStrength() {
+            const password = document.getElementById("passwordInput").value;
+            document.getElementById("strength").innerText = "Password Strength: " + evaluatePassword(password);
+        }
+
+        function generateNewPassword() {
+            document.getElementById("generatedPassword").innerText = "Suggested Secure Password: " + generateSecurePassword();
+        }
+    </script>
+</body>
+</html>
